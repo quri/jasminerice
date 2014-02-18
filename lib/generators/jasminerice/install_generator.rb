@@ -10,7 +10,7 @@ if ::Rails.version >= '3.1'
           copy_file 'spec.js.coffee', 'spec/javascripts/spec.js.coffee'
           copy_file 'example_spec.js.coffee', 'spec/javascripts/example_spec.js.coffee'
           copy_file 'spec.css', 'spec/javascripts/spec.css'
-          copy_file 'example_fixture.html.haml', 'spec/javascripts/fixtures/example_fixture.html.haml'
+          copy_file 'example_fixture.html.slim', 'spec/javascripts/fixtures/example_fixture.html.slim'
         end
       end
     end

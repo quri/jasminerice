@@ -3,14 +3,14 @@ source "http://rubygems.org"
 gemspec
 
 # used by the dummy application
-gem 'rails', '3.1.0'
+gem 'rails', '4.0.0'
 gem 'json'
-gem 'coffee-rails', "~> 3.1.0"
-gem 'haml-rails'
+gem 'coffee-rails'
+gem 'slim-rails'
 
 # used by test rails apps
 gem 'sqlite3'
-gem 'sass-rails', "~> 3.1.0"
+gem 'sass-rails'
 gem 'uglifier'
 gem 'jquery-rails'
 gem 'turn', :require => false, :group => :test
@@ -19,4 +19,11 @@ group :development, :test do
   gem "rspec-rails"
   gem "capybara"
   gem "aruba"
+  gem "selenium-webdriver"
+  gem 'rspec-formatter-webkit'
+  gem 'fuubar'  # rspec formatter
+  gem 'rspec_junit_formatter'
+  gem 'turbolinks'
+  gem 'jbuilder', '~> 1.2'
+  gem 'sdoc'
 end
