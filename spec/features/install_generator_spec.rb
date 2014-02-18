@@ -17,13 +17,13 @@ feature "Installing Jasminerice", :aruba => true do
       create  spec/javascripts/spec.js.coffee
       create  spec/javascripts/example_spec.js.coffee
       create  spec/javascripts/spec.css
-      create  spec/javascripts/fixtures/example_fixture.html.haml
+      create  spec/javascripts/fixtures/example_fixture.html.slim
     OUTPUT
     assert_partial_output(expected, all_output)
     check_file_presence(["config/initializers/jasminerice.rb"], true)
     check_file_presence(["spec/javascripts/spec.js.coffee"], true)
     check_file_presence(["spec/javascripts/example_spec.js.coffee"], true)
     check_file_presence(["spec/javascripts/spec.css"], true)
-    check_file_presence(["spec/javascripts/fixtures/example_fixture.html.haml"], true)
+    check_file_presence(["spec/javascripts/fixtures/example_fixture.html.slim"], true)
   end
 end
