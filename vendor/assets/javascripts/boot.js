@@ -121,20 +121,28 @@
    * ## Reporters
    * The `HtmlReporter` builds all of the HTML UI for the runner page. This reporter paints the dots, stars, and x's for specs, as well as all spec names and all failures (if any).
    */
-  var htmlReporter = new jasmine.HtmlReporter({
-    env: env,
-    onRaiseExceptionsClick: function() { queryString.setParam("catch", !env.catchingExceptions()); },
-    getContainer: function() { return document.body; },
-    createElement: function() { return document.createElement.apply(document, arguments); },
-    createTextNode: function() { return document.createTextNode.apply(document, arguments); },
-    timer: new jasmine.Timer()
-  });
+  var htmlInterface = {
+    htmlReporter: new jasmine.HtmlReporter({
+      env: env,
+      onRaiseExceptionsClick: function() { queryString.setParam("catch", !env.catchingExceptions()); },
+      getContainer: function() { return document.body; },
+      createElement: function() { return document.createElement.apply(document, arguments); },
+      createTextNode: function() { return document.createTextNode.apply(document, arguments); },
+      timer: new jasmine.Timer()
+    })
+  }
 
+  if (typeof window == "undefined" && typeof exports == "object") {
+    extend(exports, htmlInterface);
+  } else {
+    extend(window, htmlInterface);
+  }
+  
   /**
    * The `jsApiReporter` also receives spec results, and is used by any environment that needs to extract the results  from JavaScript.
    */
   env.addReporter(jasmineInterface.jsApiReporter);
-  env.addReporter(htmlReporter);
+  env.addReporter(htmlInterface.htmlReporter);
 
   /**
    * Filter which specs will be run by matching the start of the full name against the `spec` query param.
@@ -161,7 +169,7 @@
    * Replace the browser window's `onload`, ensure it's called, and then run all of the loaded specs. This includes initializing the `HtmlReporter` instance and then executing the loaded Jasmine environment. All of this will happen after all of the specs are loaded.
    */
   var currentWindowOnload = window.onload;
-
+  
   window.onload = function() {
     if (currentWindowOnload) {
       currentWindowOnload();
