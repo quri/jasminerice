@@ -25,18 +25,18 @@
   jasmine.getStyleFixtures().fixturesPath = 'jasmine/fixtures'
   jasmine.getJSONFixtures().fixturesPath = 'jasmine/fixtures/json'
 
-
-  if (navigator.userAgent.indexOf('PhantomJS') > 0) {
+  console.log('checking for pjs')
+  if navigator.userAgent.indexOf('PhantomJS') > 0
     console.log('running in Phantom')
-    consoleReporter = new jasmineRequire.ConsoleReporter()({
+    consoleReporter = new jasmine.ConsoleReporter({
       showColors: true,
       timer: new jasmine.Timer(),
       print: ->
         console.log.apply(console, arguments)
     })
+    jasmineEnv.addReporter(consoleReporter)
 
-    jasmineEnv.addReporter(consoleReporter);
-  }
+  something = 3
 
   #
   # jasmine.rice = {}
