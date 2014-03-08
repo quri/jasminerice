@@ -1,6 +1,7 @@
 #=require jasmine
 #=require jasmine-html
 #=require boot
+#=require console
 #=require jquery
 #=require jasmine-jquery-2.0.2
 (->
