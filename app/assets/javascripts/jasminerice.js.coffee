@@ -26,6 +26,7 @@
 
 
   if (navigator.userAgent.indexOf("PhantomJS") > 0) {
+    console.log('running in Phantom')
     var consoleReporter = new jasmineRequire.ConsoleReporter()({
       showColors: true,
       timer: new jasmine.Timer,
