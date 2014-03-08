@@ -177,6 +177,13 @@
     htmlReporter.initialize();
     env.execute();
   };
+  
+  // Replacing with event listener - See https://github.com/mjm/jasmine-rails/commit/ed30e865017fae143ca858074fa0d32c860ffccd
+   //   
+   // document.addEventListener('DOMContentLoaded', function() {
+   //    htmlReporter.initialize();
+   //    env.execute();
+   //   });
 
   /**
    * Helper function for readability above.

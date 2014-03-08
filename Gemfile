@@ -26,4 +26,11 @@ group :development, :test do
   gem 'turbolinks'
   gem 'jbuilder', '~> 1.2'
   gem 'sdoc'
+  
+  gem 'guard'
+  gem 'guard-rspec'
+  gem 'guard-coffeescript'
+  gem 'guard-jasmine'
+  gem 'rb-fsevent'
+  gem 'growl'
 end
