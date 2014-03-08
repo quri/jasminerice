@@ -26,15 +26,14 @@
   jasmine.getJSONFixtures().fixturesPath = 'jasmine/fixtures/json'
 
 
-  if (navigator.userAgent.indexOf("PhantomJS") > 0) {
+  if (navigator.userAgent.indexOf('PhantomJS') > 0) {
     console.log('running in Phantom')
-    var consoleReporter = new jasmineRequire.ConsoleReporter()({
+    consoleReporter = new jasmineRequire.ConsoleReporter()({
       showColors: true,
-      timer: new jasmine.Timer,
-      print: function() {
+      timer: new jasmine.Timer(),
+      print: ->
         console.log.apply(console, arguments)
-      }
-    });
+    })
 
     jasmineEnv.addReporter(consoleReporter);
   }
