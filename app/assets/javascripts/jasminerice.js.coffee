@@ -28,7 +28,7 @@
   console.log('checking for pjs')
   if navigator.userAgent.indexOf('PhantomJS') > 0
     console.log('running in Phantom')
-    consoleReporter = new jasmine.ConsoleReporter({
+    consoleReporter = new jasmineRequire.ConsoleReporter()({
       showColors: true,
       timer: new jasmine.Timer(),
       print: ->
@@ -36,7 +36,7 @@
     })
     jasmineEnv.addReporter(consoleReporter)
 
-  something = 3
+  something = 4
 
   #
   # jasmine.rice = {}
