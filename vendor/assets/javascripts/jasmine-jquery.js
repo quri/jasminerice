@@ -1,41 +1,40 @@
 /*!
-https://github.com/nmccready/jasmine-jquery
+ jasmine-jquery
+ version: 2.0.3
+ build date: 2014-04-01
 
-jasmine-jquery
-version: 2.0.3
-build date: 2014-04-01
-
-description: jQuery matchers and fixture loader for Jasmine framework
-git: https://github.com/velesin/jasmine-jquery.git
-home: http://github.com/velesin/jasmine-jquery
-author: Travis Jeffery, Wojciech Zawistowski
-  email: tj@travisjeffery.com
+ description: jQuery matchers and fixture loader for Jasmine framework
+ git: https://github.com/velesin/jasmine-jquery.git
+ home: http://github.com/velesin/jasmine-jquery
+ author: Travis Jeffery, Wojciech Zawistowski
+ email: tj@travisjeffery.com
 
 
-/*!
-  Copyright (c) 2010-2014
+ /*!
+ Copyright (c) 2010-2014
 
-  Permission is hereby granted, free of charge, to any person obtaining
-  a copy of this software and associated documentation files (the
-  "Software"), to deal in the Software without restriction, including
-  without limitation the rights to use, copy, modify, merge, publish,
-  distribute, sublicense, and/or sell copies of the Software, and to
-  permit persons to whom the Software is furnished to do so, subject to
-  the following conditions:
+ Permission is hereby granted, free of charge, to any person obtaining
+ a copy of this software and associated documentation files (the
+ "Software"), to deal in the Software without restriction, including
+ without limitation the rights to use, copy, modify, merge, publish,
+ distribute, sublicense, and/or sell copies of the Software, and to
+ permit persons to whom the Software is furnished to do so, subject to
+ the following conditions:
 
-  The above copyright notice and this permission notice shall be
-  included in all copies or substantial portions of the Software.
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
 
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-  LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 
-+ function(window, jasmine, $) {
+//allowing jasmineJQuery to be re-initialized later, helps deal with JQuery version problems
+window.jasmineJQuery = function(window, jasmine, $) {
   "use strict";
 
   jasmine.spiedEventsKey = function(selector, eventName) {
@@ -80,7 +79,7 @@ author: Travis Jeffery, Wojciech Zawistowski
 
   jasmine.Fixtures.prototype.read = function() {
     var htmlChunks = [],
-      fixtureUrls = arguments
+        fixtureUrls = arguments
 
     for (var urlCount = fixtureUrls.length, urlIndex = 0; urlIndex < urlCount; urlIndex++) {
       htmlChunks.push(this.getFixtureHtml_(fixtureUrls[urlIndex]))
@@ -104,8 +103,8 @@ author: Travis Jeffery, Wojciech Zawistowski
 
   jasmine.Fixtures.prototype.createContainer_ = function(html) {
     var container = $('<div>')
-      .attr('id', this.containerId)
-      .html(html)
+        .attr('id', this.containerId)
+        .html(html)
 
     $(document.body).append(container)
     return container
@@ -128,20 +127,20 @@ author: Travis Jeffery, Wojciech Zawistowski
 
   jasmine.Fixtures.prototype.loadFixtureIntoCache_ = function(relativeUrl) {
     var self = this,
-      url = this.makeFixtureUrl_(relativeUrl),
-      htmlText = '',
-      request = $.ajax({
-        async: false, // must be synchronous to guarantee that no tests are run before fixture is loaded
-        cache: false,
-        url: url,
-        success: function(data, status, $xhr) {
-          htmlText = $xhr.responseText
-        }
-      }).fail(function($xhr, status, err) {
-        throw new Error('Fixture could not be loaded: ' + url + ' (status: ' + status + ', message: ' + err.message + ')')
-      })
+        url = this.makeFixtureUrl_(relativeUrl),
+        htmlText = '',
+        request = $.ajax({
+          async: false, // must be synchronous to guarantee that no tests are run before fixture is loaded
+          cache: false,
+          url: url,
+          success: function(data, status, $xhr) {
+            htmlText = $xhr.responseText
+          }
+        }).fail(function($xhr, status, err) {
+          throw new Error('Fixture could not be loaded: ' + url + ' (status: ' + status + ', message: ' + err.message + ')')
+        })
 
-      var scripts = $($.parseHTML(htmlText, true)).find('script[src]') || [];
+    var scripts = $($.parseHTML(htmlText, true)).find('script[src]') || [];
 
     scripts.each(function() {
       $.ajax({
@@ -206,10 +205,10 @@ author: Travis Jeffery, Wojciech Zawistowski
 
   jasmine.StyleFixtures.prototype.createStyle_ = function(html) {
     var styleText = $('<div></div>').html(html).text(),
-      style = $('<style>' + styleText + '</style>')
+        style = $('<style>' + styleText + '</style>')
 
-      this.fixturesNodes_.push(style)
-      $('head').append(style)
+    this.fixturesNodes_.push(style)
+    $('head').append(style)
   }
 
   jasmine.StyleFixtures.prototype.clearCache = jasmine.Fixtures.prototype.clearCache
@@ -254,20 +253,20 @@ author: Travis Jeffery, Wojciech Zawistowski
 
   jasmine.JSONFixtures.prototype.loadFixtureIntoCache_ = function(relativeUrl) {
     var self = this,
-      url = this.fixturesPath.match('/$') ? this.fixturesPath + relativeUrl : this.fixturesPath + '/' + relativeUrl
+        url = this.fixturesPath.match('/$') ? this.fixturesPath + relativeUrl : this.fixturesPath + '/' + relativeUrl
 
-      $.ajax({
-        async: false, // must be synchronous to guarantee that no tests are run before fixture is loaded
-        cache: false,
-        dataType: 'json',
-        url: url,
-        success: function(data) {
-          self.fixturesCache_[relativeUrl] = data
-        },
-        error: function($xhr, status, err) {
-          throw new Error('JSONFixture could not be loaded: ' + url + ' (status: ' + status + ', message: ' + err.message + ')')
-        }
-      })
+    $.ajax({
+      async: false, // must be synchronous to guarantee that no tests are run before fixture is loaded
+      cache: false,
+      dataType: 'json',
+      url: url,
+      success: function(data) {
+        self.fixturesCache_[relativeUrl] = data
+      },
+      error: function($xhr, status, err) {
+        throw new Error('JSONFixture could not be loaded: ' + url + ' (status: ' + status + ', message: ' + err.message + ')')
+      }
+    })
   }
 
   jasmine.JSONFixtures.prototype.proxyCallTo_ = function(methodName, passedArguments) {
@@ -335,14 +334,14 @@ author: Travis Jeffery, Wojciech Zawistowski
 
     wasPrevented: function(selector, eventName) {
       var args = data.spiedEvents[jasmine.spiedEventsKey(selector, eventName)],
-        e = args ? args[0] : undefined
+          e = args ? args[0] : undefined
 
       return e && e.isDefaultPrevented()
     },
 
     wasStopped: function(selector, eventName) {
       var args = data.spiedEvents[jasmine.spiedEventsKey(selector, eventName)],
-        e = args ? args[0] : undefined
+          e = args ? args[0] : undefined
       return e && e.isPropagationStopped()
     },
 
@@ -377,7 +376,7 @@ author: Travis Jeffery, Wojciech Zawistowski
             for (var prop in css) {
               var value = css[prop]
               // see issue #147 on gh
-              ;
+                  ;
               if (value === 'auto' && $(actual).get(0).style[prop] === 'auto') continue
               if ($(actual).css(prop) !== value) return {
                 pass: false
@@ -514,11 +513,11 @@ author: Travis Jeffery, Wojciech Zawistowski
         return {
           compare: function(actual, html) {
             var actualHtml = $(actual).html(),
-              expectedHtml = jasmine.jQuery.browserTagCaseIndependentHtml(html)
+                expectedHtml = jasmine.jQuery.browserTagCaseIndependentHtml(html)
 
-              return {
-                pass: (actualHtml.indexOf(expectedHtml) >= 0)
-              }
+            return {
+              pass: (actualHtml.indexOf(expectedHtml) >= 0)
+            }
           }
         }
       },
@@ -632,24 +631,24 @@ author: Travis Jeffery, Wojciech Zawistowski
             }
 
             var namespaces = event.split("."),
-              eventType = namespaces.shift(),
-              sortedNamespaces = namespaces.slice(0).sort(),
-              namespaceRegExp = new RegExp("(^|\\.)" + sortedNamespaces.join("\\.(?:.*\\.)?") + "(\\.|$)")
+                eventType = namespaces.shift(),
+                sortedNamespaces = namespaces.slice(0).sort(),
+                namespaceRegExp = new RegExp("(^|\\.)" + sortedNamespaces.join("\\.(?:.*\\.)?") + "(\\.|$)")
 
-              if (events[eventType] && namespaces.length) {
-                for (var i = 0; i < events[eventType].length; i++) {
-                  var namespace = events[eventType][i].namespace
+            if (events[eventType] && namespaces.length) {
+              for (var i = 0; i < events[eventType].length; i++) {
+                var namespace = events[eventType][i].namespace
 
-                  if (namespaceRegExp.test(namespace))
-                    return {
-                      pass: true
-                    }
-                }
-              } else {
-                return {
-                  pass: (events[eventType] && events[eventType].length > 0)
-                }
+                if (namespaceRegExp.test(namespace))
+                  return {
+                    pass: true
+                  }
               }
+            } else {
+              return {
+                pass: (events[eventType] && events[eventType].length > 0)
+              }
+            }
 
             return {
               pass: false
@@ -662,7 +661,7 @@ author: Travis Jeffery, Wojciech Zawistowski
         return {
           compare: function(actual, eventName, eventHandler) {
             var normalizedEventName = eventName.split('.')[0],
-              stack = $._data($(actual).get(0), "events")[normalizedEventName]
+                stack = $._data($(actual).get(0), "events")[normalizedEventName]
 
             for (var i = 0; i < stack.length; i++) {
               if (stack[i].handler == eventHandler) return {
@@ -685,8 +684,8 @@ author: Travis Jeffery, Wojciech Zawistowski
             }
 
             result.message = result.pass ?
-              "Expected event " + $(actual) + " not to have been triggered on " + selector :
-              "Expected event " + $(actual) + " to have been triggered on " + selector
+                "Expected event " + $(actual) + " not to have been triggered on " + selector :
+                "Expected event " + $(actual) + " to have been triggered on " + selector
 
             return result;
           }
@@ -697,14 +696,14 @@ author: Travis Jeffery, Wojciech Zawistowski
         return {
           compare: function(actual) {
             var eventName = actual.eventName,
-              selector = actual.selector,
-              result = {
-                pass: jasmine.jQuery.events.wasTriggered(selector, eventName)
-              }
+                selector = actual.selector,
+                result = {
+                  pass: jasmine.jQuery.events.wasTriggered(selector, eventName)
+                }
 
             result.message = result.pass ?
-              "Expected event " + eventName + " not to have been triggered on " + selector :
-              "Expected event " + eventName + " to have been triggered on " + selector
+                "Expected event " + eventName + " not to have been triggered on " + selector :
+                "Expected event " + eventName + " to have been triggered on " + selector
 
             return result
           }
@@ -715,21 +714,21 @@ author: Travis Jeffery, Wojciech Zawistowski
         return {
           compare: function(actual, selector, expectedArgs) {
             var wasTriggered = jasmine.jQuery.events.wasTriggered(selector, actual),
-              result = {
-                pass: wasTriggered && jasmine.jQuery.events.wasTriggeredWith(selector, actual, expectedArgs, j$, customEqualityTesters)
-              }
+                result = {
+                  pass: wasTriggered && jasmine.jQuery.events.wasTriggeredWith(selector, actual, expectedArgs, j$, customEqualityTesters)
+                }
 
             if (wasTriggered) {
               var actualArgs = jasmine.jQuery.events.args(selector, actual, expectedArgs)[1]
               result.message = result.pass ?
-                "Expected event " + actual + " not to have been triggered with " + jasmine.pp(expectedArgs) + " but it was triggered with " + jasmine.pp(actualArgs) :
-                "Expected event " + actual + " to have been triggered with " + jasmine.pp(expectedArgs) + "  but it was triggered with " + jasmine.pp(actualArgs)
+                  "Expected event " + actual + " not to have been triggered with " + jasmine.pp(expectedArgs) + " but it was triggered with " + jasmine.pp(actualArgs) :
+                  "Expected event " + actual + " to have been triggered with " + jasmine.pp(expectedArgs) + "  but it was triggered with " + jasmine.pp(actualArgs)
 
             } else {
               // todo check on this
               result.message = result.pass ?
-                "Expected event " + actual + " not to have been triggered on " + selector :
-                "Expected event " + actual + " to have been triggered on " + selector
+                  "Expected event " + actual + " not to have been triggered on " + selector :
+                  "Expected event " + actual + " to have been triggered on " + selector
             }
 
             return result
@@ -745,8 +744,8 @@ author: Travis Jeffery, Wojciech Zawistowski
             }
 
             result.message = result.pass ?
-              "Expected event " + actual + " not to have been prevented on " + selector :
-              "Expected event " + actual + " to have been prevented on " + selector
+                "Expected event " + actual + " not to have been prevented on " + selector :
+                "Expected event " + actual + " to have been prevented on " + selector
 
             return result
           }
@@ -757,14 +756,14 @@ author: Travis Jeffery, Wojciech Zawistowski
         return {
           compare: function(actual) {
             var eventName = actual.eventName,
-              selector = actual.selector,
-              result = {
-                pass: jasmine.jQuery.events.wasPrevented(selector, eventName)
-              }
+                selector = actual.selector,
+                result = {
+                  pass: jasmine.jQuery.events.wasPrevented(selector, eventName)
+                }
 
             result.message = result.pass ?
-              "Expected event " + eventName + " not to have been prevented on " + selector :
-              "Expected event " + eventName + " to have been prevented on " + selector
+                "Expected event " + eventName + " not to have been prevented on " + selector :
+                "Expected event " + eventName + " to have been prevented on " + selector
 
             return result
           }
@@ -779,8 +778,8 @@ author: Travis Jeffery, Wojciech Zawistowski
             }
 
             result.message = result.pass ?
-              "Expected event " + actual + " not to have been stopped on " + selector :
-              "Expected event " + actual + " to have been stopped on " + selector
+                "Expected event " + actual + " not to have been stopped on " + selector :
+                "Expected event " + actual + " to have been stopped on " + selector
 
             return result;
           }
@@ -791,14 +790,14 @@ author: Travis Jeffery, Wojciech Zawistowski
         return {
           compare: function(actual) {
             var eventName = actual.eventName,
-              selector = actual.selector,
-              result = {
-                pass: jasmine.jQuery.events.wasStopped(selector, eventName)
-              }
+                selector = actual.selector,
+                result = {
+                  pass: jasmine.jQuery.events.wasStopped(selector, eventName)
+                }
 
             result.message = result.pass ?
-              "Expected event " + eventName + " not to have been stopped on " + selector :
-              "Expected event " + eventName + " to have been stopped on " + selector
+                "Expected event " + eventName + " not to have been stopped on " + selector :
+                "Expected event " + eventName + " to have been stopped on " + selector
 
             return result
           }
@@ -899,4 +898,6 @@ author: Travis Jeffery, Wojciech Zawistowski
   window.getJSONFixture = function(url) {
     return jasmine.getJSONFixtures().proxyCallTo_('read', arguments)[url]
   }
-}(window, window.jasmine, window.jQuery);
+};
+
+jasmineJQuery(window, window.jasmine, window.jQuery);

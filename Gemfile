@@ -1,4 +1,4 @@
-source "http://rubygems.org"
+source 'http://rubygems.org'
 
 gemspec
 
@@ -16,10 +16,10 @@ gem 'jquery-rails'
 gem 'turn', :require => false, :group => :test
 
 group :development, :test do
-  gem "rspec-rails"
-  gem "capybara"
-  gem "aruba"
-  gem "selenium-webdriver"
+  gem 'rspec-rails'
+  gem 'capybara'
+  gem 'aruba'
+  gem 'selenium-webdriver'
   gem 'rspec-formatter-webkit'
   gem 'fuubar'  # rspec formatter
   gem 'rspec_junit_formatter'

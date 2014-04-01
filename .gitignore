@@ -19,5 +19,6 @@ public/system
 *.*.LOCAL.*.lock
 .DS_Store
 *.*.gz
+*.iml
 Session.vim
 err.txt
