@@ -3,7 +3,7 @@
 #=require boot
 #=require console
 #=require jquery
-#=require jasmine-jquery-2.0.2
+#=require jasmine-jquery
 (->
   jasmine = window.jasmine
 
